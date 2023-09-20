@@ -2,7 +2,6 @@
 
 #include "Fraction.h"
 
-
 Fraction::Fraction(int numerator, int denominator)
 	//Первая очередь инициализации
 	: m_numerator(numerator)
