@@ -2,7 +2,7 @@
 
 #include "Fraction.h"
 
-Fraction::Fraction(int numerator, int denominator)
+Fraction::Fraction(const int numerator, const int denominator)
 	//Первая очередь инициализации
 	: m_numerator(numerator)
 	/*, m_denominator(denominator) */ //Не инициализируем здесь, нужны доп. проверки.
@@ -34,12 +34,12 @@ int Fraction::getDenominator()
 	return m_denominator;
 }
 
-void Fraction::setNumerator(int value)
+void Fraction::setNumerator(const int value)
 {
 	m_numerator = value;
 }
 
-void Fraction::setDenominator(int value)
+void Fraction::setDenominator(const int value)
 {
 	if (value == 0) {
 		//Если знаменатель неправильный, ничего не делаем. Хотя можно было бы положить 1, как в конструкторе.
@@ -55,32 +55,32 @@ void Fraction::print()
 	std::cout << m_numerator << '/' << m_denominator << '\n';
 }
 
-Fraction Fraction::div(Fraction b)
+Fraction Fraction::div(const Fraction &other)
 {
 	//Особый случай:
-	if (b.m_numerator == 0) {
-		std::cerr << "Fraction::div: error: b.m_numerator is 0, result will be 0/1.\n";
+	if (other.m_numerator == 0) {
+		std::cerr << "Fraction::div: error: other.m_numerator is 0, result will be 0/1.\n";
 		return Fraction(0, 1); //Fraction(1, 1); или любую на ваше усмотрение
 		/**
 		 * Или вообще ничего не делать
-		 * cerr << "Fraction::div: error: b.numerator is 0, won't divide.";
+		 * cerr << "Fraction::div: error: other.numerator is 0, won't divide.";
 		 * return *this;
 		 */
 	}
 
 	Fraction result;
-	result.m_numerator = m_numerator * b.m_denominator;
-	result.m_denominator = m_denominator * b.m_numerator;
+	result.m_numerator = m_numerator * other.m_denominator;
+	result.m_denominator = m_denominator * other.m_numerator;
 	return result;
 }
 
-bool Fraction::operator==(Fraction other)
+bool Fraction::operator==(const Fraction &other)
 {
 	return (m_numerator == other.m_numerator &&
 			m_denominator == other.m_denominator);
 }
 
-bool Fraction::operator!=(Fraction other)
+bool Fraction::operator!=(const Fraction &other)
 {
 	//Сокращаем дублирование кода за счёт использования уже реализованных методов
 	return !operator==(other);
