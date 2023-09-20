@@ -73,3 +73,15 @@ Fraction Fraction::div(Fraction b)
 	result.m_denominator = m_denominator * b.m_numerator;
 	return result;
 }
+
+bool Fraction::operator==(Fraction other)
+{
+	return (m_numerator == other.m_numerator &&
+			m_denominator == other.m_denominator);
+}
+
+bool Fraction::operator!=(Fraction other)
+{
+	//Сокращаем дублирование кода за счёт использования уже реализованных методов
+	return !operator==(other);
+}
