@@ -7,19 +7,19 @@ public:
 	Fraction(const int numerator, const int denominator);
 	~Fraction() = default;
 
-	int getNumerator();	  //или можно назвать int numerator();
-	int getDenominator(); //или можно назвать int denominator();
+	int getNumerator() const;	  //или можно назвать int numerator() const;
+	int getDenominator() const; //или можно назвать int denominator() const;
 	//Кому как больше нравится: fraction.getNumerator() или fraction.numerator()
 
 	void setNumerator(const int value);
 	void setDenominator(const int value);
 
-	void print();
+	void print() const;
 
-	Fraction sum(const Fraction &other);   //Пример использования: c = a.sum(b)
-	Fraction sub(const Fraction &other);
-	Fraction mul(const Fraction &other);
-	Fraction div(const Fraction &other);
+	Fraction sum(const Fraction &other) const;   //Пример использования: c = a.sum(b)
+	Fraction sub(const Fraction &other) const;
+	Fraction mul(const Fraction &other) const;
+	Fraction div(const Fraction &other) const;
 
 	void reduce(); //Сокращение дроби
 
@@ -27,8 +27,8 @@ public:
 	 * Не сокращает дроби при сравнении.
 	 * Если программисту это нужно, он может вызвать reduce() перед сравнением.
 	 */
-	bool operator==(const Fraction &other);
-	bool operator!=(const Fraction &other);
+	bool operator==(const Fraction &other) const;
+	bool operator!=(const Fraction &other) const;
 
 private:
 	int m_numerator = 0;	 //Вторая очередь инициализации (выполняется только при пропущенной первой)

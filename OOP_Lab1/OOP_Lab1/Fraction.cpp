@@ -24,12 +24,12 @@ Fraction::Fraction(const int numerator, const int denominator)
 	}
 }
 
-int Fraction::getNumerator()
+int Fraction::getNumerator() const
 {
 	return m_numerator;
 }
 
-int Fraction::getDenominator()
+int Fraction::getDenominator() const
 {
 	return m_denominator;
 }
@@ -50,12 +50,12 @@ void Fraction::setDenominator(const int value)
 	m_denominator = value;
 }
 
-void Fraction::print()
+void Fraction::print() const
 {
 	std::cout << m_numerator << '/' << m_denominator << '\n';
 }
 
-Fraction Fraction::div(const Fraction &other)
+Fraction Fraction::div(const Fraction &other) const
 {
 	//Особый случай:
 	if (other.m_numerator == 0) {
@@ -74,13 +74,13 @@ Fraction Fraction::div(const Fraction &other)
 	return result;
 }
 
-bool Fraction::operator==(const Fraction &other)
+bool Fraction::operator==(const Fraction &other) const
 {
 	return (m_numerator == other.m_numerator &&
 			m_denominator == other.m_denominator);
 }
 
-bool Fraction::operator!=(const Fraction &other)
+bool Fraction::operator!=(const Fraction &other) const
 {
 	//Сокращаем дублирование кода за счёт использования уже реализованных методов
 	return !operator==(other);
