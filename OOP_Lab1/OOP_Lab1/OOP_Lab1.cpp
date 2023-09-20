@@ -5,8 +5,8 @@
 int main()
 {
 	Fraction fraction;
-	fraction.numerator = 1;
-	fraction.denominator = 2;
+	fraction.setNumerator(1);
+	fraction.setDenominator(2);
 	fraction.print();
 
 
