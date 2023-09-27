@@ -20,6 +20,11 @@ Array::Array(const int size, const int value)
 	}
 }
 
+int Array::size() const
+{
+	return m_size;
+}
+
 Array::~Array()
 {
 	delete[] m_array;
@@ -34,7 +39,13 @@ void Array::print() const
 	std::cout << m_array[m_size - 1] << "]\n";
 }
 
-int Array::operator[](const int index)
+const int &Array::operator[](const int index) const
+{
+	assert(index >= 0 && index < m_size);
+	return m_array[index];
+}
+
+int &Array::operator[](const int index)
 {
 	assert(index >= 0 && index < m_size);
 	return m_array[index];
