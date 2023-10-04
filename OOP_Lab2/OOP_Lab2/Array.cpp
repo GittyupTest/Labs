@@ -23,6 +23,7 @@ Array::Array(const int size, const int value)
 Array::Array(const Array &other)
 	: m_size(other.m_size)
 {
+	std::cout << "Array::Array(const Array &other): begin \n";
 	m_array = new int[m_size];
 
 	for (int i = 0; i < m_size; ++i) {
@@ -30,14 +31,28 @@ Array::Array(const Array &other)
 	}
 }
 
+Array::Array(Array &&other)
+{
+	//m_size == 0, m_array == nullptr
+	std::cout << "Array::Array(Array &&other): begin \n";
+	swap(other);
+}
+
+Array::~Array()
+{
+	std::cout << "Array::~Array: begin \n";
+	delete[] m_array;
+}
+
 int Array::size() const
 {
 	return m_size;
 }
 
-Array::~Array()
+void Array::swap(Array &other)
 {
-	delete[] m_array;
+	std::swap(m_size, other.m_size);
+	std::swap(m_array, other.m_array);
 }
 
 void Array::print() const
@@ -49,8 +64,25 @@ void Array::print() const
 	std::cout << m_array[m_size - 1] << "]\n";
 }
 
+Array &Array::operator=(Array &&other)
+{
+	swap(other);
+	return *this;
+}
+
 Array &Array::operator=(const Array &other)
 {
+	/*
+		//Альтернативная реализация через copy-and-swap idiom
+		//Будет существенно медленее нашей реализации только
+		// если размеры массивов одинаковы (т.к. память можно не удалять)
+		Array &Array::operator=(Array other)
+		{
+			swap(other);
+			return *this;
+		}
+	*/
+
 	if (this == &other) {
 		return *this;
 	}
