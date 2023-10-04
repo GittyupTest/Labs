@@ -54,6 +54,23 @@ void Array::swap(Array &other)
 	std::swap(m_array, other.m_array);
 }
 
+void Array::resize(int size)
+{
+	if (size < 0) {
+		std::cerr << "Array::resize: size is negative, invert...\n";
+		size = -size;
+	}
+
+	Array res(size);
+
+	int count = std::min(m_size, size);
+	for (int i = 0; i < count; ++i) {
+		res.m_array[i] = m_array[i];
+	}
+
+	res.swap(*this); 
+}
+
 void Array::print() const
 {
 	std::cout << *this;

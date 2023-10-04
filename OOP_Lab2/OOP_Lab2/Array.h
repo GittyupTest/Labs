@@ -14,6 +14,8 @@ public:
 
 	void swap(Array &other);
 
+	void resize(int size);
+
 	Array &operator=(const Array &other);
 	Array &operator=(Array &&other);
 	const int &operator[](const int index) const;
