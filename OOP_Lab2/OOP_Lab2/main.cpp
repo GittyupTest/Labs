@@ -32,6 +32,18 @@ int main()
 	arr[3] = 16;
 	arr[5] = arr[3];
 	std::cout << "Average value: " << calculateAvg(arr) << '\n';
+
+	/*
+	std::cout << "Average value: " << calculateAvg(arr) << '\n' :
+	operator<<(
+		operator<<(
+			operator<<(std::cout, "Average value: "),
+			calculateAvg(arr)
+		),
+		'\n'
+	);
+	*/
+
 	arr.print();
 
 	getchar();

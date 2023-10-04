@@ -1,5 +1,4 @@
 #include <assert.h>
-#include <iostream>
 
 #include "Array.h"
 
@@ -57,11 +56,7 @@ void Array::swap(Array &other)
 
 void Array::print() const
 {
-	std::cout << '[';
-	for (int i = 0; i < m_size - 1; ++i) {
-		std::cout << m_array[i] << ", ";
-	}
-	std::cout << m_array[m_size - 1] << "]\n";
+	std::cout << *this;
 }
 
 Array &Array::operator=(Array &&other)
@@ -137,4 +132,22 @@ Array &Array::operator+=(const Array &other)
 	this->swap(tmp);
 	std::cout << "Array::operator+=: return \n";
 	return *this;
+}
+
+std::ostream &operator<<(std::ostream &stream, const Array &arr)
+{
+	stream << '[';
+	for (int i = 0; i < arr.size() - 1; ++i) {
+		stream << arr[i] << ", ";
+	}
+	stream << arr[arr.size() - 1] << "]\n";
+	return stream;
+}
+
+std::istream &operator>>(std::istream &stream, Array &arr)
+{
+	for (int i = 0; i < arr.size(); ++i) {
+		stream >> arr[i];
+	}
+	return stream;
 }
