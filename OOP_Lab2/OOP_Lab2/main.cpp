@@ -18,6 +18,14 @@ double calculateAvg(const Array arr)
 
 int main()
 {
+	{
+		Array arrA(5, 0);
+		Array arrB(5, 1);
+		arrA += arrB;
+		arrA.print();
+	}
+	getchar();
+
 	Array arr(10, 0);
 	int a = arr[3];
 	std::cout << arr[3] << ' ' << arr[9] << std::endl;

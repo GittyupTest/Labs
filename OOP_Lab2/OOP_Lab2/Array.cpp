@@ -111,3 +111,30 @@ int &Array::operator[](const int index)
 	assert(index >= 0 && index < m_size);
 	return m_array[index];
 }
+
+Array Array::operator+(const Array &other) const
+{
+	std::cout << "Array::operator+: begin \n";
+	Array res(m_size + other.m_size);
+
+	for (int i = 0; i < m_size; ++i) {
+		res.m_array[i] = m_array[i];
+	}
+
+	for (int i = 0; i < other.m_size; ++i) {
+		res.m_array[m_size + i] = other.m_array[i];
+	}
+
+	std::cout << "Array::operator+: return \n";
+	return res;
+}
+
+Array &Array::operator+=(const Array &other)
+{
+	std::cout << "Array::operator+=: begin \n";
+	Array tmp(*this + other);
+	std::cout << "Array::operator+=: tmp created \n";
+	this->swap(tmp);
+	std::cout << "Array::operator+=: return \n";
+	return *this;
+}
