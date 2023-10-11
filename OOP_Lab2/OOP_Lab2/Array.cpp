@@ -23,7 +23,6 @@ Array::Array(const int size, const int value)
 Array::Array(const Array &other)
 	: m_size(other.m_size)
 {
-	std::cout << "Array::Array(const Array &other): begin \n";
 	m_array = new int[m_size];
 
 	for (int i = 0; i < m_size; ++i) {
@@ -34,13 +33,11 @@ Array::Array(const Array &other)
 Array::Array(Array &&other)
 {
 	//m_size == 0, m_array == nullptr
-	std::cout << "Array::Array(Array &&other): begin \n";
 	swap(other);
 }
 
 Array::~Array()
 {
-	std::cout << "Array::~Array: begin \n";
 	delete[] m_array;
 }
 
@@ -127,7 +124,6 @@ int &Array::operator[](const int index)
 
 Array Array::operator+(const Array &other) const
 {
-	std::cout << "Array::operator+: begin \n";
 	Array res(m_size + other.m_size);
 
 	for (int i = 0; i < m_size; ++i) {
@@ -138,17 +134,13 @@ Array Array::operator+(const Array &other) const
 		res.m_array[m_size + i] = other.m_array[i];
 	}
 
-	std::cout << "Array::operator+: return \n";
 	return res;
 }
 
 Array &Array::operator+=(const Array &other)
 {
-	std::cout << "Array::operator+=: begin \n";
 	Array tmp(*this + other);
-	std::cout << "Array::operator+=: tmp created \n";
 	this->swap(tmp);
-	std::cout << "Array::operator+=: return \n";
 	return *this;
 }
 
