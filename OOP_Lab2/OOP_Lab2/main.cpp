@@ -2,7 +2,8 @@
 
 #include "Array.h"
 
-double calculateAvg(const Array arr)
+template <typename T>
+double calculateAvg(const Array<T> arr)
 {
 	if (arr.size() == 0) {
 		return 0;
@@ -16,18 +17,18 @@ double calculateAvg(const Array arr)
 	return avg;
 }
 
-int main()
+template <typename T>
+void testArray()
 {
 	{
-		Array arrA(5, 0);
-		Array arrB(5, 1);
+		Array<T> arrA(5, 0);
+		Array<T> arrB(5, 1);
 		arrA += arrB;
 		arrA.print();
 	}
-	getchar();
 
-	Array arr(10, 0);
-	int a = arr[3];
+	Array<T> arr(10, 0);
+	T a = arr[3];
 	std::cout << arr[3] << ' ' << arr[9] << std::endl;
 	arr[3] = 16;
 	arr[5] = arr[3];
@@ -45,7 +46,11 @@ int main()
 	*/
 
 	arr.print();
+}
 
+int main()
+{
+	testArray<int>();
 	getchar();
 	return 0;
 }
