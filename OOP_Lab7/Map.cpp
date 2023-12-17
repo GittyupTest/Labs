@@ -50,8 +50,13 @@ bool Map::fill(int bombCount)
         }
 
         m_cells[row][column].setValue(MapCell::Bomb);
-        //TODO: метод получения соседей
-        // получаем соседей, увеличиваем их счётчик на 1.
+        auto neighbours = _neighbours(row, column);
+        for (const auto &coords : neighbours) {
+            MapCell &cell = m_cells[coords.first][coords.second];
+            if (!cell.hasBomb()) {
+                cell.setValue(MapCell::Value(cell.value() + 1));
+            }
+        }
 
         --bombCount;
     }
@@ -64,14 +69,32 @@ void Map::switchFlag(int row, int column)
     m_cells[row][column].setFlag(!m_cells[row][column].hasFlag());
 }
 
-void Map::open(int row, int column)
+bool Map::open(int row, int column)
 {
-    //TODO: метод получения соседей
-    // получаем соседей, открываем, нулевые ячейки которые были закрыты добавляем в очередь.
-    std::queue<MapCell> cellsToOpen({m_cells[row][column]});
+    std::queue<std::pair<int, int>> cellsToOpen({{row, column}});
     while (!cellsToOpen.empty()) {
-        MapCell cell;
+        row = cellsToOpen.front().first;
+        column = cellsToOpen.front().second;
+        cellsToOpen.pop();
+
+        MapCell &cell = m_cells[row][column];
+        cell.setOpen(true);
+
+        if (cell.hasBomb()) {
+            return false;
+        }
+
+        if (!cell.isOpen()) {
+            auto neighbours = _neighbours(row, column);
+            for (const auto &coords : neighbours) {
+                MapCell &cell = m_cells[coords.first][coords.second];
+                if (cell.value() == MapCell::Value_0) {
+                    cellsToOpen.push(coords);
+                }
+            }
+        }
     }
+    return true;
 }
 
 void Map::open()
@@ -86,4 +109,19 @@ void Map::open()
 const std::vector<MapCell> &Map::operator[](int row) const
 {
     return m_cells.at(row);
+}
+
+std::vector<std::pair<int, int>> Map::_neighbours(int row, int column)
+{
+    std::vector<std::pair<int, int>> cells;
+    for (int i = row - 1; i <= row + 1; ++i) {
+        for (int j = column - 1; j <= column + 1; ++j) {
+            bool isNeighbour = i >= 0 && j >= 0 && i < rowCount() && j < columnCount()
+                            && !(i == row && j == column);
+            if (isNeighbour) {
+                cells.push_back({i, j});
+            }
+        }
+    }
+    return cells;
 }

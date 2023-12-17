@@ -23,10 +23,13 @@ public:
     bool fill(int bombCount);
 
     void switchFlag(int row, int column);
-    void open(int row, int column);
+    bool open(int row, int column);
     void open();
 
     const std::vector<MapCell> &operator[](int row) const;
+
+private:
+    std::vector<std::pair<int, int>> _neighbours(int row, int column);
 
 private:
     std::vector<std::vector<MapCell>> m_cells;

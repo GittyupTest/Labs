@@ -1,6 +1,9 @@
 #include "MapCell.h"
 
-
+bool MapCell::isDigit() const
+{
+    return m_value >= Value_1 && m_value <= Value_8;
+}
 
 bool MapCell::isOpen() const
 {

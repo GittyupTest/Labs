@@ -18,6 +18,7 @@ public:
     };
 
 public:
+    bool isDigit() const;
     bool isOpen() const;
     bool hasFlag() const;
     bool hasBomb() const;
