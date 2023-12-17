@@ -11,13 +11,20 @@ CONFIG += c++11
 SOURCES += \
     Map.cpp \
     MapCell.cpp \
+    MapCellWidget.cpp \
+    MapWidget.cpp \
     main.cpp \
+    MainWindow.cpp
 
 HEADERS += \
+    MainWindow.h \
     Map.h \
     MapCell.h \
+    MapCellWidget.h \
+    MapWidget.h
 
-FORMS +=
+FORMS += \
+    MainWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
