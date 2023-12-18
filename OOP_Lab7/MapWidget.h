@@ -14,10 +14,14 @@ public:
 
     void fill(const MapParams &params);
 
+public slots:
+    void onCellOpened(const MapCell &cell);
+
 protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
+    bool m_needRefill = true;
     MapParams m_params;
     Map m_map;
     QGridLayout *m_layout = nullptr;

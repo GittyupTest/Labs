@@ -11,6 +11,12 @@ class MapCellWidget : public QPushButton
 public:
     MapCellWidget(const MapCell *cell = nullptr, QWidget *parent = nullptr);
 
+    void setOpenedStyleSheet();
+    void setClosedStyleSheet();
+
+signals:
+    void opened(const MapCell &cell);
+
 protected:
     void paintEvent(QPaintEvent *event) override;
 
