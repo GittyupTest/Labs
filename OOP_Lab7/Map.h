@@ -19,8 +19,8 @@ public:
     int rowCount() const;
     int columnCount() const;
 
-    bool fill(const MapParams &params);
-    bool fill(int bombCount);
+    bool fill(const MapParams &params, const MapCell &startCell);
+    bool fill(int bombCount, const MapCell &startCell);
 
     void switchFlag(int row, int column);
     bool open(int row, int column);
@@ -29,7 +29,7 @@ public:
     const std::vector<MapCell> &operator[](int row) const;
 
 private:
-    std::vector<std::pair<int, int>> _neighbours(int row, int column);
+    std::vector<MapCell *> _neighbours(int row, int column);
 
 private:
     std::vector<std::vector<MapCell>> m_cells;

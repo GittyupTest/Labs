@@ -6,6 +6,7 @@
 
 MapWidget::MapWidget(const MapParams &params, QWidget *parent)
     : QWidget(parent)
+    , m_params(params)
     , m_map(params.rowCount, params.columnCount)
 {
     m_layout = new QGridLayout();
@@ -15,6 +16,7 @@ MapWidget::MapWidget(const MapParams &params, QWidget *parent)
 
 void MapWidget::fill(const MapParams &params)
 {
+    m_params = params;
     for (auto *cell : m_cells) {
         m_layout->removeWidget(cell);
         delete cell;

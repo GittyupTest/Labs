@@ -1,5 +1,8 @@
+#include <algorithm>
 #include <assert.h>
-#include <queue>
+#include <QQueue>
+
+#include <QDebug>
 
 #include "Map.h"
 
@@ -20,24 +23,26 @@ int Map::columnCount() const
     return static_cast<int>(m_cells[0].size());
 }
 
-bool Map::fill(const MapParams &params)
+bool Map::fill(const MapParams &params, const MapCell &startCell)
 {
     m_cells.resize(params.rowCount);
     for (std::vector<MapCell> &row : m_cells) {
         row.resize(params.columnCount);
     }
-    return fill(params.bombCount);
+    return fill(params.bombCount, startCell);
 }
 
-bool Map::fill(int bombCount)
+bool Map::fill(int bombCount, const MapCell &startCell)
 {
-    if (bombCount > rowCount() * columnCount()) {
+    if (bombCount > rowCount() * columnCount() - 1) {
         return false;
     }
 
-    for (std::vector<MapCell> &row : m_cells) {
-        for (MapCell &cell : row) {
-            cell.setValue(MapCell::Value_0);
+    for (int i = 0; i < static_cast<int>(m_cells.size()); ++i) {
+        for (int j = 0; j < static_cast<int>(m_cells[i].size()); ++j) {
+            m_cells[i][j].setValue(MapCell::Value_0);
+            m_cells[i][j].setRow(i);
+            m_cells[i][j].setColumn(j);
         }
     }
 
@@ -45,16 +50,18 @@ bool Map::fill(int bombCount)
         int row = rand() % rowCount();
         int column = rand() % columnCount();
 
-        if (m_cells[row][column].value() == MapCell::Bomb) {
+        bool canPlaceBomb = m_cells[row][column].value() != MapCell::Bomb &&
+            (startCell.row() != row || startCell.column() != column);
+
+        if (!canPlaceBomb) {
             continue;
         }
 
         m_cells[row][column].setValue(MapCell::Bomb);
         auto neighbours = _neighbours(row, column);
-        for (const auto &coords : neighbours) {
-            MapCell &cell = m_cells[coords.first][coords.second];
-            if (!cell.hasBomb()) {
-                cell.setValue(MapCell::Value(cell.value() + 1));
+        for (auto *neighbour : neighbours) {
+            if (!neighbour->hasBomb()) {
+                neighbour->setValue(MapCell::Value(neighbour->value() + 1));
             }
         }
 
@@ -71,25 +78,19 @@ void Map::switchFlag(int row, int column)
 
 bool Map::open(int row, int column)
 {
-    std::queue<std::pair<int, int>> cellsToOpen({{row, column}});
+    QQueue<MapCell *> cellsToOpen;
+    cellsToOpen.append(&m_cells[row][column]);
     while (!cellsToOpen.empty()) {
-        row = cellsToOpen.front().first;
-        column = cellsToOpen.front().second;
-        cellsToOpen.pop();
+        MapCell *cell = cellsToOpen.takeFirst();
+        cell->setOpen(true);
 
-        MapCell &cell = m_cells[row][column];
-        cell.setOpen(true);
-
-        if (cell.hasBomb()) {
+        if (cell->hasBomb()) {
             return false;
-        }
-
-        if (!cell.isOpen()) {
+        } else if (cell->value() == MapCell::Value_0) {
             auto neighbours = _neighbours(row, column);
-            for (const auto &coords : neighbours) {
-                MapCell &cell = m_cells[coords.first][coords.second];
-                if (cell.value() == MapCell::Value_0) {
-                    cellsToOpen.push(coords);
+            for (auto *neighbour : neighbours) {
+                if (!neighbour->isOpen() && !cellsToOpen.contains(neighbour)) {
+                    cellsToOpen.append(neighbour);
                 }
             }
         }
@@ -111,15 +112,15 @@ const std::vector<MapCell> &Map::operator[](int row) const
     return m_cells.at(row);
 }
 
-std::vector<std::pair<int, int>> Map::_neighbours(int row, int column)
+std::vector<MapCell *> Map::_neighbours(int row, int column)
 {
-    std::vector<std::pair<int, int>> cells;
+    std::vector<MapCell *> cells;
     for (int i = row - 1; i <= row + 1; ++i) {
         for (int j = column - 1; j <= column + 1; ++j) {
             bool isNeighbour = i >= 0 && j >= 0 && i < rowCount() && j < columnCount()
                             && !(i == row && j == column);
             if (isNeighbour) {
-                cells.push_back({i, j});
+                cells.push_back(&m_cells[i][j]);
             }
         }
     }

@@ -1,4 +1,11 @@
+#include <assert.h>
+
 #include "MapCell.h"
+
+MapCell::MapCell(const int row, const int column)
+    : m_row(row)
+    , m_column(column)
+{}
 
 bool MapCell::isDigit() const
 {
@@ -23,6 +30,28 @@ bool MapCell::hasBomb() const
 MapCell::Value MapCell::value() const
 {
     return m_value;
+}
+
+int MapCell::row() const
+{
+    return m_row;
+}
+
+int MapCell::column() const
+{
+    return m_column;
+}
+
+void MapCell::setRow(const int row)
+{
+    assert(row >= 0);
+    m_row = row;
+}
+
+void MapCell::setColumn(const int column)
+{
+    assert(column >= 0);
+    m_column = column;
 }
 
 void MapCell::setOpen(bool isOpen)

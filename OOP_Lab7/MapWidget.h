@@ -18,6 +18,7 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
+    MapParams m_params;
     Map m_map;
     QGridLayout *m_layout = nullptr;
     QVector<MapCellWidget *>m_cells;
