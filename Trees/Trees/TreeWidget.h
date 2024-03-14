@@ -16,8 +16,15 @@ public:
     explicit TreeWidget(QWidget *parent = nullptr);
     ~TreeWidget();
 
+    void show();
+
+protected:
+    void resizeEvent(QResizeEvent *event) override;
+
+private:
+    void _updateSceneRect();
+
 private:
     Ui::TreeWidget *ui;
     QGraphicsScene *m_scene = nullptr;
 };
-
