@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     BinaryTree.cpp \
     TreeWidget.cpp \
-    main.cpp
+    main.cpp \
+    TreeNodeGraphicsItem.cpp
 
 HEADERS += \
     BinaryTree.h \
-    TreeWidget.h
+    TreeWidget.h \
+    TreeNodeGraphicsItem.h
 
 FORMS += \
     TreeWidget.ui

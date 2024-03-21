@@ -1,5 +1,7 @@
 #include <QGraphicsScene>
 
+#include "TreeNodeGraphicsItem.h"
+
 #include "TreeWidget.h"
 #include "ui_TreeWidget.h"
 
@@ -10,7 +12,18 @@ TreeWidget::TreeWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->graphicsView->setScene(m_scene);
-    m_scene->addRect(0, 0, 100, 100);
+    TreeNodeGraphicsItem *item = new TreeNodeGraphicsItem("Some not so long\ntwo-line text");
+    QFont font = item->font();
+    font.setPointSize(28);
+    item->setFont(font);
+    m_scene->addItem(item);
+
+    item = new TreeNodeGraphicsItem("Some not so long\ntwo-line text");
+    font = item->font();
+    font.setPixelSize(28);
+    item->setFont(font);
+    item->setPos(500, 0);
+    m_scene->addItem(item);
 }
 
 TreeWidget::~TreeWidget()
@@ -33,9 +46,15 @@ void TreeWidget::resizeEvent(QResizeEvent *event)
 void TreeWidget::_updateSceneRect()
 {
     m_scene->setSceneRect(0, 0,
-        ui->graphicsView->viewport()->width(),
-        ui->graphicsView->viewport()->height()
-//        qMax(int(m_scene->width()), ui->graphicsView->viewport()->width()),
-//        qMax(int(m_scene->height()), ui->graphicsView->viewport()->height())
+//        ui->graphicsView->viewport()->width(),
+//        ui->graphicsView->viewport()->height()
+        qMax(int(m_scene->width()), ui->graphicsView->viewport()->width()),
+        qMax(int(m_scene->height()), ui->graphicsView->viewport()->height())
     );
 }
+
+
+
+
+
+
